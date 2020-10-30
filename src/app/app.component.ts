@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import {Biblioteca} from './biblioteca/livro.model'
+
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'biblioteca';
 
-  registros = []
+  registros: Biblioteca[] = []
 
  onLivroRegistrado(registro){
    this.registros = [...this.registros, registro]

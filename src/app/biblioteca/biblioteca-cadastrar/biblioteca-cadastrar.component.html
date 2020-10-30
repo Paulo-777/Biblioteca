@@ -1,22 +1,27 @@
 <h2>Cadastro de Livros</h2>
 
 <mat-card>
+<form (submit)="onRegistrar(bibliotecaCad)" #bibliotecaCad="ngForm">
     <mat-form-field>
-    <input  matInput placeholder="ID" [(ngModel)]="id"/>
+        <input  required matInput placeholder="ID" name="id" ngModel #id="ngModel"/>
+        <mat-error *ngIf="id.invalid">Digite um ID valido</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-    <input  matInput placeholder="Titulo" [(ngModel)]="titulo"/>
+        <input  required matInput placeholder="Titulo" name="titulo" ngModel #titulo="ngModel"/>
+        <mat-error *ngIf="titulo.invalid">Digite o titulo do livro</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-    <input  matInput placeholder="Autor" [(ngModel)]="autor"/>
+        <input  required matInput placeholder="Autor" name="autor" ngModel #autor="ngModel"/>
+        <mat-error *ngIf="autor.invalid">Digite  nome do autor</mat-error>
     </mat-form-field>
 
     <mat-form-field>
-    <input  matInput placeholder="Numero De Paginas" [(ngModel)]="paginas"/>
-
-    
+        <input  required matInput placeholder="Numero De Paginas" name="paginas" ngModel #paginas="ngModel"/>
+        <mat-error *ngIf="paginas.invalid">Digite o numero de paginas</mat-error>
     </mat-form-field>
 
-    <button  mat-raised-button color="warn" (click)="onRegistrar()">Cadastrar Livro</button>
+    <button  mat-raised-button style="background-color:#00cc88; color: whitesmoke;">Cadastrar Livro</button>
+</form>
+</mat-card>

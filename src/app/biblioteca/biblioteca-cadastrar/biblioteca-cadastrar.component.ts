@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Output} from '@angular/core';
-
+import { Component} from '@angular/core';
+import { NgForm } from '@angular/forms';
+//import { Biblioteca } from '../livro.model';
+import { BibliotecaService } from '../biblioteca.service';
 
 @Component({
   selector: 'app-biblioteca-cadastrar',
@@ -8,23 +10,41 @@ import { Component, EventEmitter, Output} from '@angular/core';
 })
 export class BibliotecaCadastrarComponent {
 
-  @Output() LivroAdd = new EventEmitter();
+  constructor(public bibliotecaService: BibliotecaService){}
 
-  id: string;
-  titulo: string;
-  autor: string;
-  paginas: string;
+  //@Output() LivroAdd = new EventEmitter <Biblioteca>();
 
-  onRegistrar(){
-    const registro = {
-      id: this.id,
-      titulo: this.titulo, 
-      autor: this.autor, 
-      paginas: this.paginas,
+  //id: string;
+  //titulo: string;
+  //autor: string;
+  //paginas: string;
+
+  onRegistrar(form:NgForm){
+    if (form.invalid)
+      return;
+      this.bibliotecaService.registrarLivro(
+        form.value.id,
+        form.value.titulo,
+        form.value.autor,
+        form.value.paginas
+      );
+      form.resetForm();
     }
+    
+    //const registro: Biblioteca = {
+      //id: form.value.id,
+      //titulo: form.value.titulo, 
+      //autor: form.value.autor, 
+      //paginas: form.value.paginas,
+    //}
 
-    this.LivroAdd.emit(registro);
+    //this.LivroAdd.emit(registro);
+
+    //this.id = '';
+    //this.titulo = '';
+    //this.autor = '';
+    //this.paginas = '';
 
   }
    
-}
+
