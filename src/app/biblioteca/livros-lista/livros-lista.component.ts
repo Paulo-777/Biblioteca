@@ -17,8 +17,7 @@ export class LivrosListaComponent implements OnInit, OnDestroy  {
  constructor(public bibliotecaService: BibliotecaService) {}
  
  ngOnInit(): void{
-  this.lista = this.bibliotecaService.getRegistros();
-
+  this.bibliotecaService.getRegistros();
   this.listaSubscription = this.bibliotecaService.getlistaLivrosAtulizadaObservable()
   .subscribe(
     (lista: Biblioteca[]) => {
@@ -28,7 +27,7 @@ export class LivrosListaComponent implements OnInit, OnDestroy  {
  }
 
  ngOnDestroy(): void{
-    this.listaSubscription.unsubscribe();
+    this.listaSubscription
  }
 
 }

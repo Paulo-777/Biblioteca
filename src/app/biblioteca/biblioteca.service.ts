@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Biblioteca } from './livro.model';
 import { Subject} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +9,23 @@ import { Subject} from 'rxjs';
 export class BibliotecaService {
 
   
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
 
   private registros: Biblioteca [] = [];
 
-  private listaLivrosAtulizada = new Subject<Biblioteca[]>();
+ 
 
-  getRegistros(): Biblioteca[] {
-    return [...this.registros];
+  getRegistros(): void {
+    this.httpClient.get<{mensagem : string , registros: Biblioteca[]}>
+    ('http://localhost:3000/api/biblioteca').subscribe((dados)=>{
+      this.registros = dados.registros;
+      this.listaLivrosAtulizada.next([...this.registros]);
+    })
+    //return [...this.registros];
   }
+
+  private listaLivrosAtulizada = new Subject<Biblioteca[]>();
   
   registrarLivro ( id: string, titulo: string, autor: string, paginas: string): void {
     const livro : Biblioteca = {
@@ -26,9 +34,13 @@ export class BibliotecaService {
       autor: autor, 
       paginas: paginas
     };
-    this.registros.push(livro)
+    this.httpClient.post<{mensagem: String}>
+    ('http://localhost:3000/api/biblioteca', livro).subscribe((dados)=>{
+      console.log(dados.mensagem)
+      this.registros.push(livro);
+      this.listaLivrosAtulizada.next([...this.registros]);
+    })
 
-    this.listaLivrosAtulizada.next([...this.registros]);
   }
 
   getlistaLivrosAtulizadaObservable() {
